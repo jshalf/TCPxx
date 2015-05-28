@@ -4,18 +4,18 @@
 int main(int argc,char *argv[]) {
   char buffer[1024*128];
   int port = 7052;
-  int nbytes = 1024*128;
+  long nbytes = 1024*128;
 
   RawTCPport *ServerPort = new RawTCPserver(port);
   puts("Wait for connection");
   RawPort *Server = ServerPort->accept();
   long count,recvd;
-  printf("Await receive of %u bytes\n",nbytes);
+  printf("Await receive of %ld bytes\n",nbytes);
   for(count=0,recvd=0;recvd<nbytes;count++){
     long nrec=0;
     nrec=Server->read(buffer,nbytes-recvd);
 
-    fprintf(stderr,"nrec=%d\n",nrec);
+    fprintf(stderr,"nrec=%ld\n",nrec);
     if(nrec<0){
       perror("Error:  Short Read: ");
       break;
@@ -25,13 +25,13 @@ int main(int argc,char *argv[]) {
       break;
     }
     recvd+=nrec;
-    fprintf(stderr,"Received %d of %d.  %d remain\n",recvd,nbytes,nbytes-recvd);
+    fprintf(stderr,"Received %ld of %ld.  %ld remain\n",recvd,nbytes,nbytes-recvd);
   }
   puts("Go to Second Recv Loop");
   for(count=0,recvd=0;recvd<nbytes;count++){
     long nrec=0;
     nrec=Server->read(buffer,nbytes-recvd);
-    fprintf(stderr,"nrec=%d\n",nrec);
+    fprintf(stderr,"nrec=%ld\n",nrec);
     if(nrec<0){
       perror("Error:  Short Read: ");
       break;
@@ -41,7 +41,7 @@ int main(int argc,char *argv[]) {
       break;
     }
     recvd+=nrec;
-    fprintf(stderr,"Received %d of %d.  %d remain\n",recvd,nbytes,nbytes-recvd);
+    fprintf(stderr,"Received %ld of %ld.  %ld remain\n",recvd,nbytes,nbytes-recvd);
   }
   delete Server;
   delete ServerPort;

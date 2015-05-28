@@ -102,7 +102,7 @@ int main(int argc,char *argv[]) {
   Server = ServerPort->accept();
   puts("Client Connected");
   i=Server->read(nbytes); // read number of bytes that are coming over the wire
-  printf("Read %u bytes\n",nbytes);
+  printf("Read %ld bytes\n",nbytes);
   buffer=(char *)AlignedAlloc(nbytes,alignment,0); // would it be aligned better if I malloc'ed a long?
   for(i=0;i<nbytes;i++) buffer[i]=0; // make certain it is all mapped
   i=Server->read(reflect);
@@ -110,7 +110,7 @@ int main(int argc,char *argv[]) {
   long count,recvd; // variables for counting receive stats
   Timer rtimer,stimer,ttimer;
   double rt,st,ut;
-  printf("Await receive of %u bytes\n",nbytes);
+  printf("Await receive of %ld bytes\n",nbytes);
   ttimer.start(); rtimer.start(); // Start timing
   // Must receive TCP stream in pieces as they arrive.
   for(count=0,recvd=0;recvd<nbytes;count++){
@@ -124,10 +124,10 @@ int main(int argc,char *argv[]) {
 	break;
     }
     if(verbose)
-      fprintf(stderr,"nrec=%d\n",nrec);
+      fprintf(stderr,"nrec=%ld\n",nrec);
     recvd+=nrec;
     if(verbose)
-      fprintf(stderr,"Received %d of %d.  %d remaining\n",recvd,nbytes,nbytes-recvd);
+      fprintf(stderr,"Received %ld of %ld.  %ld remaining\n",recvd,nbytes,nbytes-recvd);
   }
   ttimer.stop(); rtimer.stop(); // stop timing
   if(reflect){
@@ -149,12 +149,12 @@ int main(int argc,char *argv[]) {
     ttimer.stop(); stimer.stop(); // stop timing
   }
   rtimer.elapsedTimeSeconds(st,ut,rt);
-  printf("%u bytes received in %u reads\nReceive Times",recvd,count);
+  printf("%ld bytes received in %ld reads\nReceive Times",recvd,count);
   printf("\tuser: %lfS\n\tsystem: %lfS\n\t real: %lfS\n\t%lf Kbytes/sec\n",
 	 ut,st,rt,(double)nbytes/(1000*rt));
   if(reflect){
     stimer.elapsedTimeSeconds(st,ut,rt);
-    printf("Reflected %u bytes of data\nSend Times",nbytes);
+    printf("Reflected %ld bytes of data\nSend Times",nbytes);
     printf("\tuser: %lfS\n\tsystem: %lfS\n\t real: %lfS\n\t%lf Kbytes/sec\n",
 	   ut,st,rt,(double)nbytes/(1000*rt));
     ttimer.elapsedTimeSeconds(st,ut,rt);

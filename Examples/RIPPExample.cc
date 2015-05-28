@@ -36,7 +36,7 @@ int main(int argc,char *argv[]){
     }
     printf("send the completion packet [END]\n");
     // udp.send(buffer,1460);
-    ripp.send("END",4);
+    ripp.send("END",4); // generates a warning that I don't want to fix right now
     ripp.waitForPending(); // wait until everything is acked before closing
   }
   else if(argc==1){ // we are the recvr

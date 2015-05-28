@@ -30,7 +30,7 @@ int main(int argc,char *argv[]){
   }
   // send query to server
   urlConnection.writeString(query);
-  urlConnection.writeString("\n");
+  urlConnection.writeString("\n"); // generates warning that I will not fix
   // write out the server response.
   while((nread = urlConnection.read(buffer,BUFSZ))>0)
     fwrite(buffer,1,nread,outfile);

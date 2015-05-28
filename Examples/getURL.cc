@@ -79,7 +79,7 @@ int ParseURL(char *url,charP &hostname,int &port,charP &file){
   if(!s) 
     s = hostname + strlen(hostname);
   *s = '\0';
-  if(sp=strrchr(s-1,':')){
+  if((sp=strrchr(s-1,':'))){
     port = atoi(sp+1);
     *sp='\0';
     // printf("port=%u [%s]\n",port,sp+1);
