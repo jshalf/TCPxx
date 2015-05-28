@@ -10,18 +10,18 @@ Implements basic rlogin protocol
 */
 
 class RloginClient : private RawTCPclient {
-	void login(char *name,char *localname=0,char *termtype="VT100/9600");
-	void sendPasswdInClear(char *passwd);
+	void login(const char *name,const char *localname=0,const char *termtype="VT100/9600");
+	void sendPasswdInClear(const char *passwd);
 #ifdef KRB5
-	int sendPasswdKerberos5(char *passwd);
+	int sendPasswdKerberos5(const char *passwd);
 #endif
 	char CEscape,CPause,CResume,CCmd[3],CWindowSize[3];
 	char SFlush,SStartFlow,SStopFlow,SWindowSize;
 	char paused;
 	PortMux block,nonblock;
-	void init(char *name,char *passwd=0);
+	void init(const char *name,const char *passwd=0);
 public:
-	RloginClient(char *hostname,char *name,char* passwd=0);
+	RloginClient(const char *hostname,const char *name,const char* passwd=0);
 	~RloginClient();
 	int handleCommand(char &c);
 	int getChar();

@@ -25,7 +25,7 @@ void CopyTimeval(timeval &in,timeval &out);
 int SimpleCompareTimeval(timeval &in1,timeval &in2);
 int CompareTimeval(timeval &in1, timeval &in2);
 void ZeroTimeval(timeval &t);
-void PrintTimeval(char *lead_in,timeval &t);
+void PrintTimeval(const char *lead_in,timeval &t);
 void GetTime(timeval &tm);
 
 /* Inlined stuff */

@@ -4,9 +4,12 @@
 
 int main(int argc,char *argv[]){
   RloginClient *rlogin;
+	const char *host="localhost";
+	const char *login="jshalf";
+	const char *passwd="fakepassword";
   if(argc<3) {
     puts("demo login to bach");
-    rlogin = new RloginClient("bach.ncsa.uiuc.edu","jshalf","tomkin!1");
+    rlogin = new RloginClient(host,login,passwd);
   }
   for(int i=0;i<argc;i++) puts(argv[i]);
   if(argc==4){

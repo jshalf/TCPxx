@@ -60,7 +60,7 @@ usage: Works in conjunction with program DataServer.  You must
 int main(int argc,char *argv[]) {
   long nbytes=1024*1024; // default send is 1meg
   char *buffer;
-  char *hostname="localhost";
+  const char *hostname="localhost";
   int port = 7052;
   int windowsize = -1;
   int sendblocksize = DEFAULTBLOCKSIZE;
@@ -104,19 +104,19 @@ int main(int argc,char *argv[]) {
   // socket with big tcpwindows if specified.  Otherwise
   // open normal tcp socket.
   if(windowsize>0) {
-    printf("Send %u bytes to %s:%u using windowsize of %u\n",
+    printf("Send %ld bytes to %s:%d using windowsize of %u\n",
 	   nbytes,hostname,port,windowsize);
     Client = new FastTCPclient(hostname,port,windowsize);
   }
   else {
-    printf("Send %u bytes to %s:%u\n",nbytes,hostname,port);
+    printf("Send %ld bytes to %s:%u\n",nbytes,hostname,port);
     Client = new RawTCPclient(hostname,port);
   }
   if(fastack) Client->setTCPfastAck(1);
   // local variables for aquiring stats on transfer speed
   Timer stimer,rtimer,ttimer; // timers
   double rt,st,ut; // realtime systemtime usertime
-	printf("write nbytes=%u in %u:%u bytes\n",
+	printf("write nbytes=%ld in %ld:%ld bytes\n",
 	nbytes,sizeof(u_short),sizeof(u_long));
 
   // malloc buffer memory and initialize
@@ -132,7 +132,7 @@ int main(int argc,char *argv[]) {
   // This next write acts to synchronize the client and server after malloc.
   Client->write(reflect); // tell server if it should reflect data
   
-  printf("Begin writing %u bytes data\n",nbytes);
+  printf("Begin writing %ld bytes data\n",nbytes);
   stimer.start(); ttimer.start();
   if(sendblocksize>0){
     // break the send up into smaller blocks
@@ -169,19 +169,19 @@ int main(int argc,char *argv[]) {
 	break;
       }
       if(verbose)
-	fprintf(stderr,"nrec=%d\n",nrec);
+	fprintf(stderr,"nrec=%ld\n",nrec);
       recvd+=nrec;
       if(verbose)
-	fprintf(stderr,"Received %d of %d.  %d remain\n",recvd,nbytes,nbytes-recvd);
+	fprintf(stderr,"Received %ld of %ld.  %ld remain\n",recvd,nbytes,nbytes-recvd);
     }
     rtimer.stop(); ttimer.stop();
   }
   stimer.elapsedTimeSeconds(st,ut,rt);
-  printf("Wrote %d bytes in \n\tuser: %lfS\n\tsystem: %lfS\n\t real: %lfS\n\t%lf Kbytes/sec\n",
+  printf("Wrote %ld bytes in \n\tuser: %lfS\n\tsystem: %lfS\n\t real: %lfS\n\t%lf Kbytes/sec\n",
 	 nbytes,ut,st,rt,(double)nbytes/(1000*rt));
   if(reflect){
     rtimer.elapsedTimeSeconds(st,ut,rt);
-    printf("Got %u bytes of data back from reflection\nReceive Times",nbytes);
+    printf("Got %ld bytes of data back from reflection\nReceive Times",nbytes);
     printf("\tuser: %lfS\n\tsystem: %lfS\n\t real: %lfS\n\t%lf Kbytes/sec\n",
 	   ut,st,rt,(double)nbytes/(1000*rt));
     ttimer.elapsedTimeSeconds(st,ut,rt);

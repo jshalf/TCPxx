@@ -92,7 +92,7 @@ void ZeroTimeval(timeval &t){
   t.tv_usec=0;
 }
 
-void PrintTimeval(char *lead_in,timeval &t){
+void PrintTimeval(const char *lead_in,timeval &t){
   double d;
   TimevalToDouble(t,d);
   printf("%s: %ld:%u --> %f\n",lead_in,t.tv_sec, t.tv_usec, d);

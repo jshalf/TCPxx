@@ -15,12 +15,12 @@ Implements basic rlogin protocol
 
 #ifdef DEBUG
 // #define debugprint(x) puts(x)
-void debugprint(char *s) { fprintf(stderr,"%s\n",s);}
+void debugprint(const char *s) { fprintf(stderr,"%s\n",s);}
 #else
 #define debugprint(x)
 #endif
 
-void RloginClient::login(char *name,char *localname,char *termtype){
+void RloginClient::login(const char *name,const char *localname,const char *termtype){
   char zero = 0;
   if(!localname) localname=name;
   debugprint("send 0");
@@ -31,9 +31,9 @@ void RloginClient::login(char *name,char *localname,char *termtype){
     printf("Ack value = %c\n",zero);
   } while(rv>0);
   debugprint("sendname and termtype");
-  write(name,strlen(name)+1);
-  write(localname,strlen(localname)+1); // should be uid
-  write(termtype,strlen(termtype)+1);
+  write((void*)name,strlen(name)+1);
+  write((void*)localname,strlen(localname)+1); // should be uid
+  write((void*)termtype,strlen(termtype)+1);
   debugprint("senda zero");
   //read(&zero,1); // get return ack.
   do {
@@ -41,9 +41,9 @@ void RloginClient::login(char *name,char *localname,char *termtype){
     printf("Ack value = %c\n",zero);
   } while(rv>0);
 }
-void RloginClient::sendPasswdInClear(char *passwd){
+void RloginClient::sendPasswdInClear(const char *passwd){
   // scan for Password:
-  char *matchstring="sword:";
+  const char *matchstring="sword:";
   int matchlength=0;
   char c;
   debugprint("match passwd");
@@ -53,16 +53,16 @@ void RloginClient::sendPasswdInClear(char *passwd){
     else matchlength=0; // restart matching
   }
   debugprint("passwd matched");
-  write(passwd,strlen(passwd));
+  write((void *)passwd,strlen(passwd));
   debugprint("passwd sent");
   c='\n';
   write(&c,1); // complete the line
 }
 #ifdef KRB5
-void RloginClient::sendPasswdKerberos5(char *passwd){
+void RloginClient::sendPasswdKerberos5(const char *passwd){
 }
 #endif
-void RloginClient::init(char *name,char *passwd){
+void RloginClient::init(const char *name,const char *passwd){
   debugprint("init");
   CEscape='~';
   CPause=0x10;
@@ -81,7 +81,7 @@ void RloginClient::init(char *name,char *passwd){
   debugprint("init done");
 }
 
-RloginClient::RloginClient(char *hostname,char *name,char* passwd):
+RloginClient::RloginClient(const char *hostname,const char *name,const char* passwd):
   RawTCPclient(hostname,513){
     // login=513
     // telnet=23

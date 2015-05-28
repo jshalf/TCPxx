@@ -76,7 +76,7 @@ distclean: clean
 	rm core
 	touch t~
 	rm -f *~
-	(cd Examples; gmake distclean)
+	(cd Examples; make distclean)
 
 libTCP++.a:	$(OBJECTS)
 	$(AR) ruc libTCP++.a $(OBJECTS)
@@ -85,10 +85,10 @@ libTCP++.a:	$(OBJECTS)
 clean:
 	touch t.o
 	rm -f *.o
-	(cd Examples; gmake clean)
+	(cd Examples; make clean)
 
 tests: libTCP++.a
-	(cd Examples ; gmake) 
+	(cd Examples ; make) 
 
 examples: tests
 
