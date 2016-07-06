@@ -7,7 +7,9 @@ CC = cc
 CCP = CC
 CFLAGS = -I.. -O
 LDFLAGS = -L.. -lTCP++ -lC
-LIBLIST = ../libTCP++.a ../../libsockio.a
+LIBLIST = ../libTCP++.a 
+
+# ../../libsockio.a
 
 XLDFLAGS = -L../.. -lsockio -lieeeio 
 

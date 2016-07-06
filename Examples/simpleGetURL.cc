@@ -25,7 +25,7 @@ int main(int argc,char *argv[]){
   if(!urlConnection.isValid()) { 
     fprintf(stderr,"Error: Can't open URL http://%s:%u%s because: %s\n",
 	    hostname,port,filename,urlConnection.errorString());
-    delete query;
+    delete[] query;
     exit(0);
   }
   // send query to server
@@ -35,7 +35,7 @@ int main(int argc,char *argv[]){
   while((nread = urlConnection.read(buffer,BUFSZ))>0)
     fwrite(buffer,1,nread,outfile);
   // clean up
-  delete query;
+  delete[] query;
   return 1; // success
 }
 
