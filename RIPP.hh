@@ -4,13 +4,30 @@
 
 /*
   Reliable Independent Paced Packets (RIPP)
+ 
+ ReliableDatagram tracks and ensures delivery of individual UDP packets.
+ However, it is not designed to stream data for performance.
+ RIPP (Reliable Independent Paced Packets) extends the ReliableDatagram
+ for high throughput pipelined delivery of reliable UDP datagrams.
+ It utilizes a variable-sized circular queue for tracking outstanding packets and
+ performs aggressive resends of outstanding packets that lie outside of the
+ expected delivery window.  In doing so, it overcomes the windowsize limitations
+ and AIMD throughput limitations of TCP with large windows.  It is also able
+ to achieve similar performance to multi-streamed TCP, but using just a single
+ channel.  This implementation is thread-safe for Posix Threads with very
+ fine-grained resource exclusion.
+ 
+ The downside is that it is a fixed-rate protocol (e.g. it is not TCP-friendly).
+ It assumes a dedicated bandwidth reservation from end-to-end, so one must
+ be careful to not exceed the limits of the bandwidth reservation.
+ 
   ToDo:
 	* MTU Discovery:  On connection establishment, it should calculate
 	   the MTU and then use it to initialize the packet buffers to the
-	   correct size.
+	   correct size rather than resizing on-the-fly. (auto-sizing)
 	* TCP control socket drop monitoring
 	* ACK over TCP option (currently acks over UDP for min latency)
-	* Calculate Loss rates
+	* Calculate Loss rates in realtime for analysis/modeling
 	* New base class for PacketPacer that accepts loss stats
 	  and computes correct pacing strategy using internal
 	  algorithm.  Can have "FixedRatePacketPacer" that ignores
@@ -53,8 +70,8 @@ public:
   inline void setBitRate(double bitrate){rate.setBitRate(bitrate);}
   void init(int maxpktsize=1480,int nfree=1024);
   virtual int send(char *buffer,int nbytes);
-    // if we are multithreaded
-    // must put mutexes around each queue access
+    // This implementation is thread-safe.
+    // Puts mutexes around each queue access
     // call recvCheck() continuously and enqueue recvd packets
     // we can intersperse these checks with paced packet output
     // or put the paced packet output into a separate thread
