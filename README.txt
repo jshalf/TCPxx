@@ -10,3 +10,7 @@ Copyright:
 	Lawrence Berkeley National Laboratory (Berkeley, California)
 	Center for Computational Technology at Louisianna State University (Baton Rouge, Louisiana)
 
+To build, please use GNU Make.
+It should recognize the architecture and use appropriate flags, but if not, modify variables within the makefile.
+Build the main directory first to build the library, and then move to "examples" subdirectory to see use cases.
+
