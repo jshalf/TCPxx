@@ -3,6 +3,8 @@ John Shalf (1996-present) and Werner Benger (2001-present)
 Many additional contributions from CCT at LSU and the Cactus (CCTK) team.
 sed for Cactus Computational toolkit (http://www.cactuscode.org/) and SciNET Bandwidth challenge.
 
+Based on TCPutils library, developed by John Shalf at VPI&SU in 1991.  TCPutils used the C language.  TCP++ is a ground-up rewrite for the C++ language.  The original TCPutils is still in a "TCPutils" subdirectory, but development ceased in 1995.
+
 Copyright: 
 	Max Planck Institute for Gravitationphysics / Albert Einstein Institut (Potsdam, Germany)
 	National Center for Supercomputing Applications (Champaign, Illinois)
