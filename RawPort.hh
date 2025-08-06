@@ -56,7 +56,7 @@ protected:
      I should eventually rethink this... 
   */
 #ifndef WIN32
-  void setPort(int fid); 
+  void setPort(int fid);
 #else
   void setPort(SOCKET fid);
 #endif
@@ -66,7 +66,7 @@ public:
      private RawPort() constructor can be used
      to post-set the port number */
 #ifndef WIN32
-  RawPort(int fid);  
+  RawPort(const int fid);
 #else
   RawPort(SOCKET fid);
 #endif
@@ -77,7 +77,7 @@ public:
      are blocking reads & writes.  I will add fcnctl() goop
      to allow non-blocking reads & writes eventually. */
 
-  virtual int read(void *buffer,int bufsize) { 
+  virtual int read(void *buffer,const int bufsize) {
 #ifndef WIN32
     int rval=::read(port,(char*)buffer,bufsize);
     if(rval<0) 
@@ -90,7 +90,7 @@ public:
     return rval;
   }
 
-  virtual int write(void *buffer,int bufsize){ 
+  virtual int write(const void *buffer,const int bufsize){
 #ifndef WIN32
     int rval = ::write(port,(char*)buffer,bufsize);
     if(rval<0) 

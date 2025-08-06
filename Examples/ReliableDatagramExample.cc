@@ -79,7 +79,7 @@ int main(int argc,char *argv[]){
       do { // now, if we over-shot on the pause, then we have to 
 	// send a bunch of packets without inter-packet pacing to
 	// fill in the gap (but only up to 16 consecutive)
-	sprintf(buffer,"PKT: %04u",packetcount);
+	snprintf(buffer,sizeof(buffer),"PKT: %04u",packetcount);
 	printf("Sending Packetbuffer=[%s]\n",buffer);
 	udp.send(buffer,1460);
 	packets_sent++;
@@ -104,7 +104,7 @@ int main(int argc,char *argv[]){
       // but plen can potentially be different for every packet
       // printf("Pause for interval\n");
       rate.pace(plen); // pause to pace packets
-      sprintf(buffer,"PKT: %04u",packetcount);
+      snprintf(buffer,sizeof(buffer),"PKT: %04u",packetcount);
       printf("Sending Packetbuffer=[%s]\n",buffer);
       udp.send(buffer,1460);
     }
@@ -124,12 +124,12 @@ int main(int argc,char *argv[]){
     printf("now start sending %u packets at %f packets per second\n",npackets,(float)packetrate);
     for(packetcount=0;packetcount<npackets;packetcount++){
       delay.instantaneousWait();
-      sprintf(buffer,"PKT: %04u",packetcount);
+      snprintf(buffer,sizeof(buffer),"PKT: %04u",packetcount);
       printf("Sending Packetbuffer=[%s]\n",buffer);
       udp.send(buffer,1460);
     }
 #endif
-    sprintf(buffer,"END"); // send completion packet
+    snprintf(buffer,sizeof(buffer),"END"); // send completion packet
     printf("send the completion packet [%s]\n",buffer);
     // udp.send(buffer,1460);
     udp.send("END",4);

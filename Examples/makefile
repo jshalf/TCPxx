@@ -10,7 +10,7 @@ MPCXX = CC
 CC = cc
 CCP = CC
 CFLAGS = -I.. -O
-LDFLAGS = -L.. -lTCP++ -lC
+LDFLAGS = -L.. -lTCP++
 LIBLIST = ../libTCP++.a
 
 ifeq ($(UNAME), machten)

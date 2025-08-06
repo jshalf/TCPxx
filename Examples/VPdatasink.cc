@@ -9,7 +9,7 @@ extern "C" { // make it callable from a C program
 
 void NetByteSwap(void *a,int nelements){
   int *src=(int *)a;
-  register int i;
+  int i;
   for(i=0;i<nelements;i++)
     src[i]=ntohl(src[i]);
 }
@@ -29,7 +29,7 @@ void FindRange(float *f,size_t nelem,float *range){
 inline void IndexToXYZ(int index,int *dims,
 		     int &x,int &y,int &z){
   z=index/(dims[0]*dims[1]);
-  register int remainder=index%(dims[0]*dims[1]);
+  int remainder=index%(dims[0]*dims[1]);
   y=remainder/dims[0];
   x=remainder%(dims[0]);
 }

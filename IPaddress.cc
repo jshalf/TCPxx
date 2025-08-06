@@ -81,7 +81,7 @@ void IPaddress::addr2name(){
     unsigned char *c;
     unsigned int arry = (unsigned int)(sin.sin_addr.s_addr);
     c=(unsigned char*)((void*)(&arry));
-    sprintf(hostname,"%u.%u.%u.%u",(unsigned int)(c[0]),
+    snprintf(hostname,sizeof(hostname),"%u.%u.%u.%u",(unsigned int)(c[0]),
 	    (unsigned int)(c[1]),(unsigned int)(c[2]),(unsigned int)(c[3]));
   }
   flags|=NAMEVALID;

@@ -224,7 +224,7 @@ int RawUDP::bind(int pt){
   return n;
 }
 
-RawUDPserver::RawUDPserver(int pt):RawUDP(pt){
+RawUDPserver::RawUDPserver(const int pt):RawUDP(pt){
   if(this->bind()<0){
     if(this->port>=0) close(this->port);
     this->port=-1; // make it such that isValid=0;
@@ -235,7 +235,7 @@ RawUDPserver::~RawUDPserver(){}
 
 
 void PrintSin(sockaddr_in &sin){
-  cerr << "sin_family  "; 
+  cerr << "sin_family  ";
   if(sin.sin_family == AF_INET)
     cerr << "AF_INET" << endl;
   else if(sin.sin_family==PF_INET)

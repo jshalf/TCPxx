@@ -33,7 +33,7 @@ void PrintMsgFromVisapult(char *msg,int nprocs){
 int TCPMustRead(RawTCPport *sock,char *buffer,int buflen){
   /* do errno only if types.h has been included */
     /* how can I tell if this has been included ? */
-    register int n,accum=0;
+    int n,accum=0;
     while((n=sock->read(buffer,buflen)) > 0){
       if(n>=0) {
 	buffer = buffer + n;
@@ -168,10 +168,10 @@ int main(int argc,char *argv[]){
   GetTime(now);
   CopyTimeval(now,lasttime);
   for(i=0;i<info->nprocs*100;i++){
-    register char buffer[1500];
-    register int packettype;
-    register timeval tm;
-    register int *ibuf=(int*)((void*)buffer);
+    char buffer[1500];
+    int packettype;
+    timeval tm;
+    int *ibuf=(int*)((void*)buffer);
  
     udp->read(buffer,sizeof(buffer));
     npkts_total++;
@@ -185,7 +185,7 @@ int main(int argc,char *argv[]){
 	 word[1]=proc
 	 word[2]=offset
       */
-      register int src; // this is the source
+      int src; // this is the source
       // This is an info packet
       src=ntohl(ibuf[1]);
       n=procmap[src]; // map PID to densly packed vector
@@ -212,14 +212,14 @@ int main(int argc,char *argv[]){
       this_pkt_count[n]=ntohl64(p[0]);
     }
     else if(packettype==-4){ // V3 info packet (obsoleted)
-      /* Format
+      // Format
 	 word[0] = -4
 	 word[1] = proc
 	 word[2] = numprocs
 	 word[3] = ---empty---
 	 word[4-5]=doubleword packetcount (dword aligned access)
        */
-      register int src;
+      int src;
       int64_t *p = (int64_t*)((void*)(ibuf+4));
       // This is an info packet
       src=ntohl(ibuf[1]);

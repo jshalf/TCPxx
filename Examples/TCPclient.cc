@@ -5,7 +5,7 @@
 int main(int argc,char *argv[]) {
   int nbytes=1024*128;
   char buffer[1024*128];
-  char *hostname="localhost";
+  const char *hostname="localhost";
   int port = 7052;
   
   for(int i=0;i<nbytes;i++) buffer[i]=0;

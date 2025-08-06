@@ -42,12 +42,14 @@ int main(int argc,char *argv[]){
   // construct a proper query
   char *query = 0;
   if(long_query){ // use fancy web-browser-like request
-    query = new char[strlen(filename)+strlen(hostname)+256];
-    sprintf(query,"GET /%s HTTP/1.0\nUser-Agent: TCP++ (Text)\nHost: %s:%u\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*\n\n",filename,hostname,port);
+      int len=strlen(filename)+strlen(hostname)+1500;
+      query = new char[len];
+      snprintf(query,len,"GET /%s HTTP/1.0\nUser-Agent: TCP++ (Text)\nHost: %s:%u\nAccept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, */*\n\n",filename,hostname,port);
   }
   else { // use simple request (and get a simpler response)
-    query = new char[strlen(filename)+strlen(hostname)+256];
-    sprintf(query,"GET /%s\n\n",filename);
+      int len=strlen(filename)+strlen(hostname)+256;
+      query = new char[len];
+      snprintf(query,len,"GET /%s\n\n",filename);
   }
   RawTCPclient *urlConnection = new RawTCPclient(hostname,port);
   // write out the query

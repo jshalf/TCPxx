@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef DARWIN
-#include <iostream.h>
-#else
-#include <stream.h>
-#endif
+#include <iostream>
 #include "vatoi.hh"
 #include "RawUDP.hh"
 #include "Timer.hh"
@@ -259,7 +255,7 @@ void client(char *host,int port,
   }
   // connection implicitly closed at end of subr.
 }
-void main(int argc,char *argv[]){
+int main(int argc,char *argv[]){
   CommandLine cmdln(argc,argv);
   printf("sizeof long= %lu sizeof short =%lu sizeof int=%lu\n",
         sizeof(long),sizeof(short),sizeof(int));
@@ -268,4 +264,5 @@ void main(int argc,char *argv[]){
 	      cmdln.packetlength,cmdln.max_packetlength,cmdln.step_packetlength,
 	      cmdln.bitrate,cmdln.max_bitrate,cmdln.step_bitrate,
 	      cmdln.duration,cmdln.use_scavenger,cmdln.ntrials);
+    return 0;
 }

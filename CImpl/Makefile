@@ -15,3 +15,10 @@ client.o: client.c tcp_utils.h
 
 tcp_utils.o: tcp_utils.c tcp_utils.h
 	cc -c tcp_utils.c
+
+clean:
+	rm -f *.o
+
+distclean: clean
+	rm -f server client
+

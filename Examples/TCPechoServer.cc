@@ -12,7 +12,7 @@ int main() {
 
   Server->read(buffer,128);
   cout << buffer <<"\n";
-  sprintf(buffer,"Howdy, Partner!");
+  snprintf(buffer,sizeof(buffer),"Howdy, Partner!");
   Server->write(buffer,128);
   return 1;
 }

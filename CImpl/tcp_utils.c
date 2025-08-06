@@ -8,6 +8,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
+#include <unistd.h>
 #include "tcp_utils.h"
 
 /* #if defined(ANSI) || defined(__STDC__) */
@@ -46,7 +48,7 @@ int TCPOpenClientSock(char *hostname,int port)
   sin.sin_family = AF_INET;
   sin.sin_addr.s_addr=INADDR_ANY;
   sin.sin_port = htons((u_short)port);
-  if(phe=gethostbyname(hostname))
+  if((phe=gethostbyname(hostname)) != 0)
     bcopy(phe->h_addr, (char *)&sin.sin_addr, phe->h_length);
   else if((sin.sin_addr.s_addr = inet_addr(hostname)) == INADDR_NONE)
     fprintf(stderr,"can\'t find host %s \n",hostname);
@@ -83,7 +85,7 @@ int UDPOpenClientSock(char *hostname,int port)
   sin.sin_family = AF_INET;
   sin.sin_addr.s_addr=INADDR_ANY;
   sin.sin_port = htons((u_short)port);
-  if(phe=gethostbyname(hostname))
+  if((phe=gethostbyname(hostname)) != 0)
     bcopy(phe->h_addr, (char *)&sin.sin_addr, phe->h_length);
   else if((sin.sin_addr.s_addr = inet_addr(hostname)) == INADDR_NONE)
     fprintf(stderr,"can\'t find host %s \n",hostname);
@@ -99,7 +101,7 @@ int UDPOpenClientSock(char *hostname,int port)
       fprintf(stderr,"couldn\'t allocate socket on host %s: port %u\n",hostname,port);
       return sock;
     }
-  if(bind(sock,&sin,sizeof(sin)) <0)
+  if(bind(sock,(const struct sockaddr *)&sin,sizeof(sin)) <0)
     {
       close(sock);
       perror("client: bind failed");
@@ -177,7 +179,7 @@ int UDPOpenServerSock(int port)
   return s;
 }
 
-TCPBlockingWrite(int fd,char *buffer, int buflen)
+int TCPBlockingWrite(int fd,char *buffer, int buflen)
 {
   register int n;
   int nstore;

@@ -30,7 +30,7 @@ int main(int argc,char *argv[]){
     ripp.setByteRate(byterate);
     printf("now start sending %u packets\n",npackets);
     for(packetcount=0;packetcount<npackets;packetcount++){
-      sprintf(buffer,"PKT: %04u",packetcount);
+      snprintf(buffer,sizeof(buffer),"PKT: %04u",packetcount);
       printf("Sending Packetbuffer=[%s]\n",buffer);
       ripp.send(buffer,1460);
     }

@@ -17,8 +17,8 @@ void PacketInfo::computeChecksum(){
   // to one computed
   // uint32_t stored_cs = this->getChecksum();
   int sz = this->length - sizeof(PacketHeader);
-  register int i=0,ilast=sz>>2;
-  register uint32_t cs=0,*b=(uint32_t*)data;
+  int i=0,ilast=sz>>2;
+  uint32_t cs=0,*b=(uint32_t*)data;
   for(i=0;i<ilast;i++) {
     cs^=csum[i]; // and checksum while we are at it
   }
@@ -42,8 +42,8 @@ int PacketInfo::verifyChecksum(){
   // to one computed
   uint32_t stored_cs = this->getChecksum();
   int sz = this->length - sizeof(PacketHeader);
-  register int i=0,ilast=sz>>2;
-  register uint32_t cs=0,*b=(uint32_t*)data;
+  int i=0,ilast=sz>>2;
+  uint32_t cs=0,*b=(uint32_t*)data;
   for(i=0;i<ilast;i++) {
     cs^=csum[i]; // and checksum while we are at it
   }
@@ -74,8 +74,8 @@ void PacketInfo::copyDataIn(char *buffer,size_t sz){
   length = sz+sizeof(PacketHeader);
   this->computeChecksum();
 #endif
-  register int i=0,ilast=sz>>2;
-  register uint32_t cs=0,*b=(uint32_t*)buffer;
+  int i=0,ilast=sz>>2;
+  uint32_t cs=0,*b=(uint32_t*)buffer;
   for(;i<ilast;i++) {
     csum[i]=b[i]; // copy 32-bits at a time
     cs^=csum[i]; // and checksum while we are at it
@@ -105,7 +105,7 @@ void PacketInfo::copyDataInNoChecksum(char *buffer,size_t sz){
 }
 
 int PacketInfo::copyDataOut(char *buffer){
-  register int i,ilast=length-sizeof(PacketHeader);
+  int i,ilast=length-sizeof(PacketHeader);
   for(i=0;i<ilast;i++) buffer[i]=data[i];
   return ilast;
 }
@@ -150,12 +150,12 @@ FastCircBuffer::~FastCircBuffer(){delete cbuf;}
 PacketInfo *FastCircBuffer::removeSeq(uint32_t seq,int &seekback){ 
   uint32_t i;
   for(i=0;i<nitems;i++){
-    register uint32_t idx = realOffset(i+front);
-    register PacketInfo *p=cbuf[idx];
+    uint32_t idx = realOffset(i+front);
+    PacketInfo *p=cbuf[idx];
     if(!p) continue; // skip null items
     if(seq==p->getSeq()){ // is this the seq we are looking for??
       // now we do removal
-      register uint32_t j;
+      uint32_t j;
       idx=front;
       p=cbuf[idx];
       cbuf[idx]=0; // store a null
@@ -178,15 +178,15 @@ PacketInfo *FastCircBuffer::removeSeq2(uint32_t seq,int &seekback){
   // will need to recopy entries
   uint32_t i;
   for(i=0;i<nitems;i++){
-    register uint32_t idx = realOffset(i+front);
-    register PacketInfo *p=cbuf[idx];
+    uint32_t idx = realOffset(i+front);
+    PacketInfo *p=cbuf[idx];
     if(seq==p->getSeq()){ // is this the seq we are looking for??
       // now we do removal
-      register uint32_t j;
+      uint32_t j;
       idx=front;
       p=cbuf[idx];
       for(j=0;j<i;j++){
-	register uint32_t idxp = realOffset(j+front+1);
+	uint32_t idxp = realOffset(j+front+1);
 	p=cbuf[idxp];
 	cbuf[idxp]=cbuf[idx];
 	idx=idxp;
@@ -243,7 +243,7 @@ ReliableDatagram::ReliableDatagram(char *host,int port):RawUDP(),control(0),snds
     control->write(h,32); // TCP nodelay should ensure this gets out timely
     RawUDP::recv(h,32,this->returnaddress);
     RawUDP::connect(this->returnaddress);
-    sprintf(h,"%u",this->returnaddress.getPort());
+    snprintf(h,sizeof(h),"%u",this->returnaddress.getPort());
     //printf("I got returnaddress is [%s], so I inform the other side\n",h);
     control->write(h,32);
     returnaddress.getHostname(h);
@@ -276,7 +276,7 @@ ReliableDatagram::ReliableDatagram(RawTCPport *s):RawUDP(),control(s),sndseq(0),
   {
     char h[32];
     int pt,i;
-    sprintf(h,"%u",this->returnaddress.getPort());
+    snprintf(h,sizeof(h),"%u",this->returnaddress.getPort());
     //printf("TCP:Write The ReturnAddress to the other end (%s)!\n",h);
     control->write(h,32); // tell the other side to bind
     // wait on control socket to make sure the initial request made it
@@ -321,11 +321,11 @@ ReliableDatagram::ReliableDatagram(RawTCPport *s):RawUDP(),control(s),sndseq(0),
   if(0) { // MTU discovery currently disabled
     char buffer[10000]; // 10k buffer
     // OK, now we do MTU discovery
-    sprintf(buffer,"1500");
+    snprintf(buffer,sizeof(buffer),"1500");
     RawUDP::send(buffer,1500-20);
-    sprintf(buffer,"4000");
+    snprintf(buffer,sizeof(buffer),"4000");
     RawUDP::send(buffer,4000-20);
-    sprintf(buffer,"9000");
+    snprintf(buffer,sizeof(buffer),"9000");
     RawUDP::send(buffer,9000-20);
   }
   init();

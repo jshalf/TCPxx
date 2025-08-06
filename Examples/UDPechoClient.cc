@@ -20,7 +20,7 @@ int main(int argc,char *argv[]){
     int i;
     
     puts("prompt:");
-    gets(buffer);
+    fgets(buffer,sizeof(buffer),stdin);// gets(buffer);
     i=echo.write(buffer,strlen(buffer)+1);
     *buffer=0;
     i=echo.read(buffer,128);

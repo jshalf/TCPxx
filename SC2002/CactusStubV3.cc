@@ -24,7 +24,7 @@ struct ProcData {
     for(int i=0;i<size;i++) data[i]=val;
   }
   ~ProcData(){delete data;}
-  int initSeg(){ current_byte=0;}
+  int initSeg(){ return current_byte=0;}
   int copySeg(char *buf,int bufsize){
     int over=bufsize%sizeof(float);
     bufsize-=over;
@@ -176,7 +176,7 @@ void PrintMsgFromVisapult(char *msg,int nprocs){
 int TCPMustRead(RawTCPport *sock,char *buffer,int buflen){
   /* do errno only if types.h has been included */
     /* how can I tell if this has been included ? */
-    register int n,accum=0;
+    int n,accum=0;
     while((n=sock->read(buffer,buflen)) > 0){
       if(n>=0) {
 	buffer = buffer + n;

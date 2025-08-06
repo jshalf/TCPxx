@@ -154,7 +154,7 @@ void HybridDelay::wait(timeval &tv){
 
 void NanoSleepDelay::wait(timeval &tv){
 #ifdef _TIMESPEC_DECLARED
-  register struct timespec wt;
+  struct timespec wt;
   wt.tv_sec=tv.tv_sec;
   wt.tv_nsec=tv.tv_usec;
   wt.tv_nsec*=1000; // 1e-9 insted of 1e-6

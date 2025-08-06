@@ -20,7 +20,7 @@ int main(int argc,char *argv[]){
   int nread;
   // construct the query in a single buffer
   char *query = new char[strlen(filename)+16];
-  sprintf(query,"GET %s\n",filename);
+  snprintf(query,strlen(filename)+16,"GET %s\n",filename);
   RawTCPclient urlConnection(hostname,port);
   if(!urlConnection.isValid()) { 
     fprintf(stderr,"Error: Can't open URL http://%s:%u%s because: %s\n",

@@ -38,7 +38,7 @@ public:
   RawUDP(); // for connectionless service
   // need to eliminate the port & host,pt constructors)
   RawUDP(char *host,int pt); // for connected service
-  RawUDP(int pt); // port on localhost (good argument for a server) 
+  RawUDP(int pt); // port on localhost (good argument for a server)
   int connect(){return this->connect(this->address);}
   int connect(IPaddress &addr);
   int connect(char *host,int port);

@@ -2,8 +2,10 @@
 #include "tcp_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
+#include <unistd.h> 
 
-main()
+int main(int argc,char *argv[])
 {
 	char *buffer;
 	int sock;
@@ -25,4 +27,5 @@ main()
 	TCPBlockingWrite(sock,buffer,i*j);
 	puts("send complete");
 	close(sock);
+    return 0;
 }

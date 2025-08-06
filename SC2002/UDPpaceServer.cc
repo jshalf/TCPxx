@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#ifdef DARWIN
-#include <iostream.h>
-#else
-#include <stream.h>
-#endif
+#include <iostream>
 
 #include "RawUDP.hh"
 #include "Timer.hh"
@@ -23,7 +19,7 @@ inline int ParseHeader(char *s, long &item, long &of_items){
   else return 0; // this is the beginning or middle of a stream of packets
 }
 
-void main(int argc,char *argv[]){
+int main(int argc,char *argv[]){
   RawUDPserver udp(7000);
   long last_seq,seq,done;
   Timer timer;
@@ -68,4 +64,5 @@ void main(int argc,char *argv[]){
 	   ((double)lost)*100.0/((double)total),
 	   out_of_order);
   }
+    return 0;
 }

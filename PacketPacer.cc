@@ -21,8 +21,8 @@ void PacketPacer::pause(double timeleft){
   int r;
   // getDeltaT(); // refresh the current interval
 #ifdef _TIMESPEC_DECLARED
-  // register double timeleft = bytes_in_payload*8.0/desired_rate - delta_t - over_t;
-    register struct timespec wt;
+  // double timeleft = bytes_in_payload*8.0/desired_rate - delta_t - over_t;
+    struct timespec wt;
     if(timeleft>0.0){ // just double-check
       wt.tv_sec=(time_t)(timeleft);
       wt.tv_nsec=(unsigned long)(1.0e9*(timeleft-(double)wt.tv_sec)); // 1e-9

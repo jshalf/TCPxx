@@ -50,8 +50,8 @@ struct PacketInfo {
     //for(length=0;length<sz;length++) data[length]=buffer[length];
     // should compute checksum here as well
     // do it the stupid way?
-    register int i=0,ilast=sz>>2;
-    register uint32_t cs=0,*b=(uint32_t*)buffer;
+    int i=0,ilast=sz>>2;
+    uint32_t cs=0,*b=(uint32_t*)buffer;
     for(;i<ilast;i++) {
       csum[i]=b[i]; // copy 32-bits at a time
       cs^=csum[i]; // and checksum while we are at it
@@ -67,7 +67,7 @@ struct PacketInfo {
     this->setChecksum(cs);
   }
   int copyDataOut(char *buffer){
-    register int i,ilast=length-sizeof(PacketHeader);
+    int i,ilast=length-sizeof(PacketHeader);
     for(i=0;i<ilast;i++) buffer[i]=data[i];
     return ilast;
   }
@@ -142,12 +142,12 @@ public:
   PacketInfo *removeSeq(uint32_t seq,int &seekback){ 
     uint32_t i;
     for(i=0;i<nitems;i++){
-      register uint32_t idx = realOffset(i+front);
-      register PacketInfo *p=cbuf[idx];
+      uint32_t idx = realOffset(i+front);
+      PacketInfo *p=cbuf[idx];
       if(!p) continue; // skip null items
       if(seq==p->getSeq()){ // is this the seq we are looking for??
 	// now we do removal
-	register uint32_t j;
+	uint32_t j;
 	idx=front;
 	p=cbuf[idx];
 	cbuf[idx]=0; // store a null
@@ -170,15 +170,15 @@ public:
     // will need to recopy entries
     uint32_t i;
     for(i=0;i<nitems;i++){
-      register uint32_t idx = realOffset(i+front);
-      register PacketInfo *p=cbuf[idx];
+      uint32_t idx = realOffset(i+front);
+      PacketInfo *p=cbuf[idx];
       if(seq==p->getSeq()){ // is this the seq we are looking for??
 	// now we do removal
-	register uint32_t j;
+	uint32_t j;
 	idx=front;
 	p=cbuf[idx];
 	for(j=0;j<i;j++){
-	  register uint32_t idxp = realOffset(j+front+1);
+      uint32_t idxp = realOffset(j+front+1);
 	  p=cbuf[idxp];
 	  cbuf[idxp]=cbuf[idx];
 	  idx=idxp;

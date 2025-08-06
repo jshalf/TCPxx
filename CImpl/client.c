@@ -2,8 +2,10 @@
 #include "tcp_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
+#include <unistd.h>
 
-main()
+int main(int argc,char *argv[])
 {
 	char *buffer,resptype;
 	char buff[255],request[64];
@@ -27,7 +29,7 @@ main()
 	       &resptype,&revnum,&ticketnum,&portnum);
 	printf("rev=%u, ticket=%u, port=%u\n",revnum,ticketnum,portnum);
 	close(sock);
-	printf("closed socket, reopen tcp to %u\n");
+	printf("closed socket, reopen tcp to %u\n",portnum);
 	sock=TCPOpenClientSock("bach",portnum);
 	/* 
 	   CvtRequest(sock,sourcetype,desttype,nimages);
@@ -57,4 +59,5 @@ main()
 	TCPBlockingWrite(sock,buffer,i*j);
 	puts("send complete");
 	close(sock);
+    return 0;
 }

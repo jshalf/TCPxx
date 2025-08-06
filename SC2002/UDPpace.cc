@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef DARWIN
-#include <iostream.h>
-#else
-#include <stream.h>
-#endif
+#include <iostream>
 
 #include "RawUDP.hh"
 #include "Timer.hh"
@@ -16,8 +12,8 @@
 /*
   Usage: UDPpace hostname npackets packets_per_second
 */
-void main(int argc,char *argv[]){
-  if(argc<4) { 
+int main(int argc,char *argv[]){
+  if(argc<4) {
     printf("Usage:  %s host npackets packets_per_second\n",
 	   argv[0]);
     exit(0);
@@ -126,6 +122,7 @@ void main(int argc,char *argv[]){
     udp.write(buffer,16);
     usleep(i);
   }
+    return 0;
 }
 
 

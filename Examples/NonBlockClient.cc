@@ -5,7 +5,7 @@ using namespace std;
 
 int main(int argc,char *argv[]) {
   char buffer[128];
-  char *hostname="localhost";
+  const char *hostname="localhost";
   RawTCPclient *client=0;
   if(argc==2)
     hostname=argv[1];
@@ -13,7 +13,7 @@ int main(int argc,char *argv[]) {
     cout << i << ": Creating a client... " << endl;
     if(client) delete client; // close old connection
     client = new RawTCPclient(hostname,7777);
-    sprintf(buffer,"%d: Hi There...", i);
+    snprintf(buffer,sizeof(buffer),"%d: Hi There...", i);
     client->write(buffer,128);
     sleep(1);    
   }

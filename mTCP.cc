@@ -22,8 +22,7 @@ packetnum,packetoffset (offset is modulo MTU), finalbuf=number?
 ********************************************************/
 #include "mTCP.hh"
 #include <math.h>
-char mTCPmagic[8] = {0x08,0xFE,0x08,0xFF,
-		     0x08,0xFE,0x00,0x00};
+unsigned char mTCPmagic[8] = {0x08,0xFE,0x08,0xFF,0x08,0xFE,0x00,0x00};
 
 #define mTCP_MTU 1024 // not necessarily true, but it will do for now
 // might change to 8192 since it works so well for single sockets

@@ -23,6 +23,7 @@ endif
 ifeq ($(UNAME), machten)
 CC = gcc
 CCP = g++
+MPICXX = mpicxx
 CFLAGS += -DMACHTEN
 endif
 
@@ -30,9 +31,10 @@ ifeq ($(UNAME), Darwin)
 CC = cc
 CCP = c++
 CFLAGS += -DDARWIN
+MPICXX = mpicxx
 # LDFLAGS = -L.. -lTCP++
-MPIFLAGS = -I/usr/local/include -DMPI
-MPILIBS = -L/usr/local/lib -lmpich -lpmpich
+MPIFLAGS = -I/usr/local/include -DUSE_MPI
+MPILIBS = -L/usr/local/lib -lmpich
 endif
 
 ifeq ($(UNAME), IRIX64)
@@ -74,7 +76,7 @@ CCP = xlC
 MPCXX = mpCC
 CFLAGS = -g -I.. -DAIX
 LDFLAGS = -L.. -lTCP++ -lm
-MPIFLAGS = -DMPI
+MPIFLAGS = -DUSE_MPI
 MPILIBS = -lmpi
 AR = ar
 endif

@@ -3,13 +3,23 @@
 #include <sys/signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
+#include <unistd.h>
+
 int done;
 
-main()
+void doneinc(int sig)
 {
-  void doneinc();
+  puts("interrupt");
+  done++;
+}
+
+
+int main(int argc,char *argv[])
+{
+  /* void doneinc(); */
   char *buffer,buff[255];
-  int sock,newsock,fromlen;
+  socklen_t sock,newsock,fromlen;
   struct sockaddr_in fsin;
   int i,j,index;
   int ticket=0,tcpport=5139,rev=1;
@@ -27,7 +37,7 @@ main()
   signal(SIGINT,doneinc);
   for(done=0;!done;){
     struct sockaddr_in clientaddr;
-    int clientaddrlen;
+    socklen_t clientaddrlen;
     
     recvfrom(mainsock,buff,sizeof(buff),0,
 	     (struct sockaddr *)&clientaddr,&clientaddrlen);
@@ -39,7 +49,7 @@ main()
     puts("message sent");
     /* flush(mainsock); */
     fromlen=sizeof(fsin);
-    newsock=accept(sock,&fsin,&fromlen);
+    newsock=accept(sock,(struct sockaddr *)&fsin,&fromlen);
     printf("accepted %d from %d\n",newsock,sock);
     if(newsock<0)
       { perror("accept: bad socket number");
@@ -62,11 +72,6 @@ main()
     close(newsock);
   }
   close(mainsock);
+    return 0;
 }
 
-void doneinc(sig)
-     int sig;
-{
-  puts("interrupt");
-  done++;
-}

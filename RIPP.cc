@@ -172,7 +172,7 @@ void RIPP::sendCheck(){
   // rate.newInterval(); // or new interval?
   while(!sendq.empty()) {
     pthread_mutex_lock(&sendqlock);
-    register PacketInfo *p=sendq.front();
+    PacketInfo *p=sendq.front();
     sendq.pop();
     pthread_mutex_unlock(&sendqlock);
     // if required, pause for interval in order to pace the packet rate
